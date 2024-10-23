@@ -1,0 +1,26 @@
+<div class="page-container">
+  <button (click)="goBack()" class="back-button">←</button>
+  <div class="dropdown-container">
+    <label for="userDropdown" class="dropdown-label">Select User:</label>
+    <select id="userDropdown" [(ngModel)]="selectedUserId" (change)="onUserSelect()" class="styled-dropdown">
+      <option *ngFor="let user of users()" [value]="user.id">{{ user.name }}</option>
+    </select>
+  </div>
+  <div class="carousel-container">
+    <button (click)="previousUser()" class="carousel-button prev-button">‹</button>
+    <div class="user-details-container">
+      <div class="user-card" *ngIf="selectedUser" tabindex="0">
+        <div class="user-avatar-container">
+          <div class="user-avatar">
+            {{ getUserInitials(selectedUser.name) }}
+          </div>
+        </div>
+        <div class="user-info">
+          <h2 class="user-name">{{ selectedUser.name | uppercase }}</h2>
+          <p class="user-id">{{ selectedUser.id }}</p>
+        </div>
+      </div>
+    </div>
+    <button (click)="nextUser()" class="carousel-button next-button">›</button>
+  </div>
+</div>

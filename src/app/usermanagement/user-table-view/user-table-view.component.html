@@ -1,0 +1,25 @@
+<div class="table-container">
+  <cdk-virtual-scroll-viewport itemSize="50" class="virtual-scroll-viewport">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers">{{ header | uppercase }}</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *cdkVirtualFor="let user of users" (click)="onRowClick(user)" [ngClass]="{'dark-row': false}">
+          <td *ngFor="let key of headers" contenteditable="true" (input)="onEdit(user, key)">
+            {{ user[key] }}
+          </td>
+          <td>
+            <button mat-icon-button>
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </cdk-virtual-scroll-viewport>
+</div>

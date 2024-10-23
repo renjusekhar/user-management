@@ -1,0 +1,118 @@
+.table-container {
+  position: relative;
+  padding: 10px;
+
+  .virtual-scroll-viewport {
+    height: 80vh;
+    border: 1px solid #ddd;
+    overflow: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      word-wrap: break-word;
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+      text-transform: uppercase;
+      border-bottom: 2px solid #444;
+    }
+
+    tbody tr {
+      transition: background-color 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    tbody tr.dark-row:hover {
+      background-color: #555;
+    }
+
+    tbody td[contenteditable] {
+      border: 1px solid transparent;
+      padding: 8px;
+      transition: border-color 0.3s;
+    }
+
+    tbody td[contenteditable]:focus {
+      border-color: #1976d2;
+      outline: none;
+    }
+  }
+}
+
+.dark-row {
+  background-color: #444;
+  color: white;
+}
+
+.dark-row td {
+  color: white;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+  .table-container {
+    padding: 5px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  /* Make the table scrollable horizontally on mobile */
+  .virtual-scroll-viewport {
+    height: 70vh;
+    overflow-x: auto;
+  }
+  
+  /* Stack headers vertically for smaller mobile screens */
+  @media (max-width: 576px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    thead {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    tr {
+      border: 1px solid #ddd;
+      margin-bottom: 5px;
+    }
+
+    td {
+      position: relative;
+      padding-left: 50%;
+      text-align: right;
+    }
+
+    td:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      text-align: left;
+      font-weight: bold;
+    }
+  }
+}

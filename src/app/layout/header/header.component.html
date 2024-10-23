@@ -1,0 +1,11 @@
+<header class="header">
+  <h1>User Details Management</h1>
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="checkbox">
+      <input type="checkbox" id="checkbox" (change)="toggleTheme()" />
+      <span class="slider round"></span>
+      <mat-icon *ngIf="!darkModeEnabled">brightness_5</mat-icon>
+      <mat-icon *ngIf="darkModeEnabled">brightness_2</mat-icon>
+    </label>
+  </div>
+</header>
