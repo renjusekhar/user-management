@@ -12,14 +12,14 @@
       <tbody class="table-body">
         <tr class="table-row" *cdkVirtualFor="let user of users()" 
             (click)="navigateToUserDetails(user)" 
-            [ngClass]="{'dark-row': false, 'editing-row': editingRowId === user.id}">
+            [ngClass]="{'dark-row': false, 'edit-list': editListId === user.id}">
           @for(key of headers(); track key) {
             <td class="editable-cell" contenteditable="true">
               {{ user[key] }}
             </td>
           }
           <td>
-            <button class="edit-cell" mat-icon-button (click)="editRow(user.id); $event.stopPropagation()">
+            <button class="edit-cell" mat-icon-button (click)="editList(user.id);">
               <mat-icon>edit</mat-icon>
             </button>
           </td>

@@ -14,7 +14,6 @@ interface User {
   email: string;
   status: string;
 }
-
 @Component({
   selector: 'app-user-table',
   standalone: true,
@@ -25,7 +24,7 @@ interface User {
 export class UserListComponent implements OnInit {
   users = signal<User[]>([]);
   headers = signal<string[]>([]); 
-  editingRowId: string | null = null; // Track the ID of the row being edited
+  editListId: string | null = null;
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -44,36 +43,21 @@ export class UserListComponent implements OnInit {
   }
 
   navigateToUserDetails(user: User) {
-    // Only navigate if not editing
-    if (this.editingRowId !== user.id) {
+    if (this.editListId !== user.id) {
       this.router.navigate(['/user', user.id]);
     }
   }
 
-  editRow(userId: string) {
-    // Set the current row to be editable
-    this.editingRowId = userId;
+  editList(userId: string) {
+    this.editListId = userId;
     setTimeout(() => {
-      // Focus on the first editable cell of the row
       const row = document.getElementById(`user-row-${userId}`);
       if (row) {
         const editableCells = row.querySelectorAll('.editable-cell');
         if (editableCells.length > 0) {
-          // Cast to HTMLTableCellElement to access the focus method
-          (editableCells[0] as HTMLTableCellElement).focus(); // Focus on the first editable cell
+          (editableCells[0] as HTMLTableCellElement).focus();
         }
       }
-    }, 0); // Timeout to ensure the DOM updates before focusing
+    }, 0); 
   }
-
-  stopEditing() {
-    // Stop editing the current row
-    this.editingRowId = null;
-  }
-
-  // onEdit(user: User, key: string, event: Event) {
-  //   // Update the user property with the edited value
-  //   const target = event.target as HTMLTableCellElement;
-  //   user[key] = target.innerText; // Update the user object with the new value
-  // }
 }
