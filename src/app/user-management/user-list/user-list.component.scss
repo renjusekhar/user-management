@@ -8,46 +8,73 @@
     overflow: auto;
   }
 
-  table {
+  .user-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: auto;
 
-    th, td {
+    .header-cell, .editable-cell {
       padding: 10px;
       text-align: left;
       border-bottom: 1px solid #ddd;
       word-wrap: break-word;
     }
 
-    th {
+    .header-cell {
       background-color: #333;
       color: white;
       text-transform: uppercase;
       border-bottom: 2px solid #444;
     }
 
-    tbody tr {
+    .table-row {
       transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #52cced;
+        cursor: pointer;
+      }
+
+      &.dark-row:hover {
+        background-color: #555;
+      }
+
+      &.editing-row {
+        background-color: #b5ebf3ad;
+        border-left: 4px solid #00796b;
+      }
     }
 
-    tbody tr:hover {
-      background-color: #52cced;
-    }
-
-    tbody tr.dark-row:hover {
-      background-color: #555;
-    }
-
-    tbody td[contenteditable] {
+    .editable-cell[contenteditable] {
       border: 1px solid transparent;
       padding: 8px;
       transition: border-color 0.3s;
     }
 
-    tbody td[contenteditable]:focus {
+    .editable-cell[contenteditable]:focus {
       border-color: #1976d2;
       outline: none;
+    }
+  }
+  .edit-cell {
+    background-color: transparent;
+    border: none; 
+    cursor: pointer; 
+    transition: transform 0.2s ease, background-color 0.2s ease; 
+  
+    &:hover {
+      transform: scale(1.1); 
+      background-color: rgba(82, 206, 237, 0.1); 
+      border-radius: 4px; 
+    }
+  
+    mat-icon {
+      color: #1976d2; 
+      transition: color 0.2s ease; 
+    }
+  
+    &:hover mat-icon {
+      color: #0d47a1;
     }
   }
 }
@@ -55,64 +82,73 @@
 .dark-row {
   background-color: #444;
   color: white;
+
+  .editable-cell {
+    color: white;
+  }
 }
 
-.dark-row td {
-  color: white;
-}
-
-/* Responsive styling for smaller screens */
 @media (max-width: 768px) {
   .table-container {
     padding: 5px;
   }
 
-  table {
+  .user-table {
     font-size: 14px;
-  }
 
-  th, td {
-    padding: 8px;
-  }
-
-  /* Make the table scrollable horizontally on mobile */
-  .virtual-scroll-viewport {
-    height: 70vh;
-    overflow-x: auto;
-  }
-  
-  /* Stack headers vertically for smaller mobile screens */
-  @media (max-width: 576px) {
-    table, thead, tbody, th, td, tr {
-      display: block;
+    .header-cell, .editable-cell {
+      padding: 8px;
     }
 
-    thead {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
+    .virtual-scroll-viewport {
+      height: 70vh;
+      overflow-x: auto;
     }
-
-    tr {
-      border: 1px solid #ddd;
-      margin-bottom: 5px;
-    }
-
-    td {
-      position: relative;
-      padding-left: 50%;
-      text-align: right;
-    }
-
-    td:before {
-      content: attr(data-label);
-      position: absolute;
-      left: 10px;
-      width: 45%;
-      padding-right: 10px;
-      white-space: nowrap;
-      text-align: left;
-      font-weight: bold;
+    
+    @media (max-width: 576px) {
+      .user-table,
+      .table-header,
+      .table-body,
+      .header-cell,
+      .editable-cell,
+      .table-row {
+        display: block;
+        width: 100%; 
+      }
+    
+      .table-header {
+        position: relative; 
+        top: auto; 
+        left: auto; 
+        margin-bottom: 10px; 
+        font-weight: bold; 
+      }
+    
+      .table-row {
+        border: 1px solid #ddd;
+        margin-bottom: 5px;
+        padding: 10px; 
+        background-color: #f9f9f9; 
+      }
+     
+      
+    
+      .editable-cell {
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    
+        &:before {
+          content: attr(data-label);
+          left: 10px;
+          width: 45%;
+          padding-right: 10px;
+          white-space: nowrap;
+          text-align: left;
+          font-weight: bold;
+          color: #333; 
+        }
+      }
     }
   }
 }

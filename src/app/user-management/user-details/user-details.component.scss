@@ -1,63 +1,74 @@
 .page-container {
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center; 
+  justify-content: flex-start;
   height: 80vh;
   padding: 20px;
   position: relative;
 
-  .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: transparent;
-    border: 2px solid rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-    font-size: 48px;
-    color: rgb(152, 154, 152);    
-    padding: 10px;
-    border:none;
-    transition: all 0.3s ease;
-    
-    &:hover {
-      transform: scale(1.5);
-    }
-  }
+  .header {
+    display: flex; 
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px; 
 
-  .dropdown-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-
-    .dropdown-label {
-      font-size: 20px;
-      margin-right: 10px;
-      color: rgb(152, 154, 152);    
-
-    }
-
-    .styled-dropdown {
-      background-color: #d3d3d3;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      font-size: 16px;
-      color: #333;
+    .back-button {
+      background: transparent;
+      border: 2px solid rgba(0, 0, 0, 0.7);
       cursor: pointer;
+      font-size: 48px;
+      color: rgb(152, 154, 152);
+      padding: 10px;
+      border: none;
+      transition: all 0.3s ease;
+      margin-left: 20px; 
+      position: relative;
+
+      &:hover {
+        transform: scale(1.5);
+        color: #000; 
+      }
+
+      @media (max-width: 768px) {
+        font-size: 36px; 
+        padding: 8px; 
+      }
     }
 
-    @media (max-width: 768px) {
-      display: none; 
+    .dropdown-container {
+      display: flex;
+      align-items: center; 
+
+      .dropdown-label {
+        font-size: 20px;
+        margin-right: 10px;
+        color: rgb(152, 154, 152);
+      }
+
+      .styled-dropdown {
+        background-color: #d3d3d3;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        color: #333;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        display: none; 
+      }
     }
   }
 
   .carousel-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
     position: relative;
     width: 100%;
+    margin: 0 auto; 
+    flex-grow: 1; 
 
     .carousel-button {
       background: transparent;
@@ -75,13 +86,11 @@
     }
 
     .prev-button {
-      position: absolute;
-      left: 0;
+      margin-right: auto; 
     }
 
     .next-button {
-      position: absolute;
-      right: 0;
+      margin-left: auto; 
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -8,11 +8,11 @@ import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
 interface User {
-	id: string;
-	name: string;
-	avatar: string;
-	email: string;
-	status: string;
+  id: string;
+  name: string;
+  avatar: string;
+  email: string;
+  status: string;
 }
 
 @Component({
@@ -25,6 +25,8 @@ interface User {
 export class UserListComponent implements OnInit {
   users = signal<User[]>([]);
   headers = signal<string[]>([]); 
+  editingRowId: string | null = null; // Track the ID of the row being edited
+
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
@@ -41,11 +43,37 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  navigateToUserDetails(user: any) {
-    this.router.navigate(['/user', user.id]);
+  navigateToUserDetails(user: User) {
+    // Only navigate if not editing
+    if (this.editingRowId !== user.id) {
+      this.router.navigate(['/user', user.id]);
+    }
   }
 
-  onEdit(user: any, key: string) {
-    user[key] = user; 
+  editRow(userId: string) {
+    // Set the current row to be editable
+    this.editingRowId = userId;
+    setTimeout(() => {
+      // Focus on the first editable cell of the row
+      const row = document.getElementById(`user-row-${userId}`);
+      if (row) {
+        const editableCells = row.querySelectorAll('.editable-cell');
+        if (editableCells.length > 0) {
+          // Cast to HTMLTableCellElement to access the focus method
+          (editableCells[0] as HTMLTableCellElement).focus(); // Focus on the first editable cell
+        }
+      }
+    }, 0); // Timeout to ensure the DOM updates before focusing
   }
+
+  stopEditing() {
+    // Stop editing the current row
+    this.editingRowId = null;
+  }
+
+  // onEdit(user: User, key: string, event: Event) {
+  //   // Update the user property with the edited value
+  //   const target = event.target as HTMLTableCellElement;
+  //   user[key] = target.innerText; // Update the user object with the new value
+  // }
 }

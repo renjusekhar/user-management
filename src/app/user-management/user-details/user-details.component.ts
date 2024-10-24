@@ -1,9 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // Import Router
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
-
 
 interface User {
 	id: string;
@@ -30,8 +29,10 @@ export class UserDetailsComponent implements OnInit {
 	ngOnInit(): void {
 		this.userService.getUsers().subscribe((response: User[]) => {
 			this.users.set(response);
-			this.selectedUserId = this.route.snapshot.params['id'];
-			this.updateSelectedUser();
+			this.route.paramMap.subscribe(params => {
+				this.selectedUserId = params.get('id') || '';
+				this.updateSelectedUser(); 
+			});
 		});
 	}
 
@@ -41,6 +42,9 @@ export class UserDetailsComponent implements OnInit {
 
 	updateSelectedUser(): void {
 		this.selectedUser = this.users().find((user: User) => user.id === this.selectedUserId) || null;
+		if (this.selectedUser) {
+			this.router.navigate(['/user', this.selectedUser.id]); 
+		}
 	}
 
 	goBack(): void {
@@ -58,8 +62,9 @@ export class UserDetailsComponent implements OnInit {
 		const currentIndex = this.users().findIndex(user => user.id === this.selectedUserId);
 		const nextIndex = (currentIndex === this.users().length - 1) ? 0 : currentIndex + 1;
 		this.selectedUserId = this.users()[nextIndex].id;
-		this.selectUser();
+		this.selectUser(); 
 	}
+	
 	getUserInitials(name: string): string {
 		if (!name) return '';
 		const names = name.split(' ');

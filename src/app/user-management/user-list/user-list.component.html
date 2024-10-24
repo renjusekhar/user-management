@@ -1,23 +1,25 @@
 <div class="table-container">
   <cdk-virtual-scroll-viewport itemSize="50" class="virtual-scroll-viewport">
-    <table>
-      <thead>
-        <tr>
-          @for(header of headers(); track header){
-            <th>{{ header | uppercase }}</th>
+    <table class="user-table">
+      <thead class="table-header">
+        <tr class="header-row">
+          @for(header of headers(); track header) {
+            <th class="header-cell">{{ header | uppercase }}</th>
           }
-          <th>Edit</th>
+          <th class="header-cell"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr *cdkVirtualFor="let user of users()" (click)="navigateToUserDetails(user)" [ngClass]="{'dark-row': false}">
-          @for(key of headers(); track key){
-            <td  contenteditable="true" (input)="onEdit(user, key)">
+      <tbody class="table-body">
+        <tr class="table-row" *cdkVirtualFor="let user of users()" 
+            (click)="navigateToUserDetails(user)" 
+            [ngClass]="{'dark-row': false, 'editing-row': editingRowId === user.id}">
+          @for(key of headers(); track key) {
+            <td class="editable-cell" contenteditable="true">
               {{ user[key] }}
             </td>
           }
           <td>
-            <button mat-icon-button>
+            <button class="edit-cell" mat-icon-button (click)="editRow(user.id); $event.stopPropagation()">
               <mat-icon>edit</mat-icon>
             </button>
           </td>

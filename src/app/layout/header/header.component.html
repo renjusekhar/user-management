@@ -1,10 +1,8 @@
 <header class="header">
-  <h1>USER HUB</h1>
+  <h3 class="header-title">USER HUB</h3>
   <div class="theme-switch-wrapper">
-    <label class="theme-switch" for="checkbox">
-      <input type="checkbox" id="checkbox" (change)="toggleTheme()" />
-      <span class="slider round"></span>
-      <i class="theme-icon" [ngClass]="{ 'dark-mode': isDarkTheme, 'light-mode': !isDarkTheme }"></i>
-    </label>
+    <mat-icon class="theme-icon" (click)="toggleTheme()">
+      {{ isDarkTheme ? 'nightlight_round' : 'wb_sunny' }}
+    </mat-icon>
   </div>
 </header>
