@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 
+
 interface User {
+	bio: string;
 	id: string;
+	language: string;
 	name: string;
-	avatar: string;
-	email: string;
-	status: string;
+	version: number;
 }
 
 @Component({
@@ -17,7 +18,8 @@ interface User {
 	standalone: true,
 	imports: [CommonModule, FormsModule],
 	templateUrl: './user-details.component.html',
-	styleUrls: ['./user-details.component.scss']
+	styleUrls: ['./user-details.component.scss'],
+
 })
 export class UserDetailsComponent implements OnInit {
 	users = signal<User[]>([]);

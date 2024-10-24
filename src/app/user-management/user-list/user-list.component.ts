@@ -7,19 +7,21 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
+
 interface User {
-  id: string;
-  name: string;
-  avatar: string;
-  email: string;
-  status: string;
+	bio: string;
+	id: string;
+	language: string;
+	name: string;
+	version: number;
 }
+
 @Component({
   selector: 'app-user-table',
   standalone: true,
   imports: [CommonModule, ScrollingModule, MatIconModule],
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss'] 
+  styleUrls: ['./user-list.component.scss'] ,
 })
 export class UserListComponent implements OnInit {
   users = signal<User[]>([]);
