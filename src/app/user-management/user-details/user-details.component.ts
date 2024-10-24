@@ -3,24 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
-
-
-interface User {
-	bio: string;
-	id: string;
-	language: string;
-	name: string;
-	version: number;
-}
-
+import { User } from '../../models/user.model';
 @Component({
 	selector: 'app-user-details',
 	standalone: true,
 	imports: [CommonModule, FormsModule],
 	templateUrl: './user-details.component.html',
 	styleUrls: ['./user-details.component.scss'],
-
 })
+
 export class UserDetailsComponent implements OnInit {
 	users = signal<User[]>([]);
 	selectedUserId: string = '';
@@ -29,17 +20,13 @@ export class UserDetailsComponent implements OnInit {
 	constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) { }
 
 	ngOnInit(): void {
-		this.userService.getUsers().subscribe((response: User[]) => {
+		this.userService.getUsers().subscribe((response: User[] | never) => {
 			this.users.set(response);
 			this.route.paramMap.subscribe(params => {
 				this.selectedUserId = params.get('id') || '';
 				this.updateSelectedUser(); 
 			});
 		});
-	}
-
-	selectUser(): void {
-		this.updateSelectedUser();
 	}
 
 	updateSelectedUser(): void {
@@ -57,14 +44,14 @@ export class UserDetailsComponent implements OnInit {
 		const currentIndex = this.users().findIndex(user => user.id === this.selectedUserId);
 		const previousIndex = (currentIndex === 0) ? this.users().length - 1 : currentIndex - 1;
 		this.selectedUserId = this.users()[previousIndex].id;
-		this.selectUser();
+		this.updateSelectedUser();
 	}
 
 	selectNextUser(): void {
 		const currentIndex = this.users().findIndex(user => user.id === this.selectedUserId);
 		const nextIndex = (currentIndex === this.users().length - 1) ? 0 : currentIndex + 1;
 		this.selectedUserId = this.users()[nextIndex].id;
-		this.selectUser(); 
+		this.updateSelectedUser(); 
 	}
 	
 	getUserInitials(name: string): string {

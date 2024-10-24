@@ -1,32 +1,26 @@
-import { Component, OnInit, signal, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { ScrollingModule } from '@angular/cdk/scrolling';  
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-
-
-interface User {
-	bio: string;
-	id: string;
-	language: string;
-	name: string;
-	version: number;
-}
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-user-table',
   standalone: true,
   imports: [CommonModule, ScrollingModule, MatIconModule],
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss'] ,
+  styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
   users = signal<User[]>([]);
-  headers = signal<string[]>([]); 
+  headers = signal<string[]>([]);
   editListId: string | null = null;
+  @ViewChildren('user') userRows!: QueryList<ElementRef>;
+  @ViewChildren('editableRow') editableRow!: QueryList<ElementRef>;
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -36,11 +30,13 @@ export class UserListComponent implements OnInit {
         console.error('Error fetching users:', error);
         return of([]);
       })
-    ).subscribe((response) => {
-      if (response.length > 0) {
-        this.users.set(response);  
+    ).subscribe((response: User[]) => {
+      if (Array.isArray(response) && response.length > 0) {
+        this.users.set(response);
         this.headers.set(Object.keys(response[0]));
-      } 
+      } else {
+        console.warn('Received response is not a valid user array or is empty');
+      }
     });
   }
 
@@ -52,14 +48,16 @@ export class UserListComponent implements OnInit {
 
   editList(userId: string) {
     this.editListId = userId;
-    setTimeout(() => {
-      const row = document.getElementById(`user-row-${userId}`);
-      if (row) {
-        const editableCells = row.querySelectorAll('.editable-cell');
-        if (editableCells.length > 0) {
-          (editableCells[0] as HTMLTableCellElement).focus();
-        }
+    const selectedRow = this.userRows.find((row) => {
+      return row.nativeElement.id === `user-row-${userId}`;
+    });
+    if (selectedRow) {
+      const editableRow = selectedRow.nativeElement.querySelectorAll('.editable-cell');
+      if (editableRow.length > 0) {
+        requestAnimationFrame(() => {
+          (editableRow[0] as HTMLTableCellElement).focus();
+        });
       }
-    }, 0); 
+    }
   }
 }

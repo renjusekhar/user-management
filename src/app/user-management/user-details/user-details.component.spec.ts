@@ -48,15 +48,6 @@ describe('UserDetailsComponent', () => {
     expect(component.selectedUser).toEqual(mockUsers[0]);
   });
 
-  it('should navigate to selected user on selectUser call', () => {
-    userServiceSpy.getUsers.and.returnValue(of(mockUsers));
-    component.ngOnInit();
-    
-    component.selectUser();
-
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/user', 'abcd']);
-  });
-
   it('should go back to user list when goBack is called', () => {
     component.goBack();
 

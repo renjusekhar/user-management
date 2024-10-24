@@ -12,9 +12,9 @@
       <tbody class="table-body">
         <tr class="table-row" *cdkVirtualFor="let user of users()" 
             (click)="navigateToUserDetails(user)" 
-            [ngClass]="{'dark-row': false, 'edit-list': editListId === user.id}">
+            [ngClass]="{'dark-row': false, 'edit-list': editListId === user.id}" #user>
           @for(key of headers(); track key) {
-            <td class="editable-cell" contenteditable="true">
+            <td class="editable-cell" contenteditable="true"  #editableRow>
               {{ user[key] }}
             </td>
           }

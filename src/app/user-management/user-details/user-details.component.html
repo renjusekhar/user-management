@@ -2,8 +2,10 @@
   <button (click)="goBack()" class="back-button">←</button>
   <div class="dropdown-container">
     <label for="userDropdown" class="dropdown-label">Select User:</label>
-    <select id="userDropdown" [(ngModel)]="selectedUserId" (change)="selectUser()" class="styled-dropdown">
-      <option *ngFor="let user of users()" [value]="user.id">{{ user.name }}</option>
+    <select id="userDropdown" [(ngModel)]="selectedUserId" (change)="updateSelectedUser()" class="styled-dropdown">
+      @for(user of users(); track user){
+        <option [value]="user.id">{{user.name}}</option>
+      }
     </select>
   </div>
   <div class="carousel-container">
@@ -18,6 +20,7 @@
         <div class="user-info">
           <h2>{{ selectedUser.name | uppercase }}</h2>
           <p>{{ selectedUser.id }}</p>
+          <p>{{ selectedUser.language }}</p>
         </div>
       </div>
     </div>
