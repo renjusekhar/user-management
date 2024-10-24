@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -15,9 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./user-table-view.component.scss'] 
 })
 export class UserTableViewComponent implements OnInit {
-  users: any[] = [];
-  headers: string[] = [];
-  darkModeEnabled: boolean = false;
+  usersDataList = signal<any[]>([]);
+  dynamicTableHeaders = signal<string[]>([]); 
+  darkModeEnabled = signal<boolean>(false);
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
@@ -27,10 +27,10 @@ export class UserTableViewComponent implements OnInit {
         this.router.navigate(['/no-data-found']); 
         return of([]);
       })
-    ).subscribe((data) => {
-      if (data.length > 0) {
-        this.users = data;
-        this.headers = Object.keys(this.users[0]);
+    ).subscribe((response) => {
+      if (response.length > 0) {
+        this.usersDataList.set(response);  
+        this.dynamicTableHeaders.set(Object.keys(response[0]));
       } else {
         this.router.navigate(['/no-data-found']);
       }

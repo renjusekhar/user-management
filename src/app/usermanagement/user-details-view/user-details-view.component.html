@@ -3,7 +3,7 @@
   <div class="dropdown-container">
     <label for="userDropdown" class="dropdown-label">Select User:</label>
     <select id="userDropdown" [(ngModel)]="selectedUserId" (change)="onUserSelect()" class="styled-dropdown">
-      <option *ngFor="let user of users()" [value]="user.id">{{ user.name }}</option>
+      <option *ngFor="let user of usersDataList()" [value]="user.id">{{ user.name }}</option>
     </select>
   </div>
   <div class="carousel-container">

@@ -3,16 +3,19 @@
     <table>
       <thead>
         <tr>
-          <th *ngFor="let header of headers">{{ header | uppercase }}</th>
+          @for(header of dynamicTableHeaders(); track header){
+            <th>{{ header | uppercase }}</th>
+          }
           <th>Edit</th>
         </tr>
       </thead>
-
       <tbody>
-        <tr *cdkVirtualFor="let user of users" (click)="onRowClick(user)" [ngClass]="{'dark-row': false}">
-          <td *ngFor="let key of headers" contenteditable="true" (input)="onEdit(user, key)">
-            {{ user[key] }}
-          </td>
+        <tr *cdkVirtualFor="let user of usersDataList()" (click)="onRowClick(user)" [ngClass]="{'dark-row': false}">
+          @for(key of dynamicTableHeaders(); track key){
+            <td  contenteditable="true" (input)="onEdit(user, key)">
+              {{ user[key] }}
+            </td>
+          }
           <td>
             <button mat-icon-button>
               <mat-icon>edit</mat-icon>
