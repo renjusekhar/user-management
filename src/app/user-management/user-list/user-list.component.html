@@ -3,15 +3,15 @@
     <table>
       <thead>
         <tr>
-          @for(header of dynamicTableHeaders(); track header){
+          @for(header of headers(); track header){
             <th>{{ header | uppercase }}</th>
           }
           <th>Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr *cdkVirtualFor="let user of usersDataList()" (click)="onRowClick(user)" [ngClass]="{'dark-row': false}">
-          @for(key of dynamicTableHeaders(); track key){
+        <tr *cdkVirtualFor="let user of users()" (click)="navigateToUserDetails(user)" [ngClass]="{'dark-row': false}">
+          @for(key of headers(); track key){
             <td  contenteditable="true" (input)="onEdit(user, key)">
               {{ user[key] }}
             </td>

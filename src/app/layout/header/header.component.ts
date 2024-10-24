@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+
 
 
 @Component({
@@ -11,17 +12,17 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  theme: string = 'light';
-  darkModeEnabled: boolean = false;
+  isDarkTheme: boolean = false; 
 
-  toggleTheme() {
-    this.darkModeEnabled = !this.darkModeEnabled;
-    if (this.darkModeEnabled) {
-      document.body.classList.add('dark-theme');
+  constructor(private renderer :Renderer2){}
+  toggleTheme(): void {
+    if (this.isDarkTheme) {
+      this.renderer.removeClass(document.body, 'dark-theme');
+      this.renderer.addClass(document.body, 'light-theme');
     } else {
-      document.body.classList.remove('dark-theme');
+      this.renderer.removeClass(document.body, 'light-theme');
+      this.renderer.addClass(document.body, 'dark-theme');
     }
-    this.theme = this.theme === 'light' ? 'dark' : 'light';
-    document.body.className = this.theme;
+    this.isDarkTheme = !this.isDarkTheme;
   }
 }

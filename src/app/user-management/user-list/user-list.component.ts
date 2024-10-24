@@ -7,37 +7,41 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
+interface User {
+	id: string;
+	name: string;
+	avatar: string;
+	email: string;
+	status: string;
+}
+
 @Component({
-  selector: 'app-user-table-view',
+  selector: 'app-user-table',
   standalone: true,
   imports: [CommonModule, ScrollingModule, MatIconModule],
-  templateUrl: './user-table-view.component.html',
-  styleUrls: ['./user-table-view.component.scss'] 
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.scss'] 
 })
-export class UserTableViewComponent implements OnInit {
-  usersDataList = signal<any[]>([]);
-  dynamicTableHeaders = signal<string[]>([]); 
-  darkModeEnabled = signal<boolean>(false);
+export class UserListComponent implements OnInit {
+  users = signal<User[]>([]);
+  headers = signal<string[]>([]); 
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.userService.getUsers().pipe(
       catchError((error) => {
         console.error('Error fetching users:', error);
-        this.router.navigate(['/no-data-found']); 
         return of([]);
       })
     ).subscribe((response) => {
       if (response.length > 0) {
-        this.usersDataList.set(response);  
-        this.dynamicTableHeaders.set(Object.keys(response[0]));
-      } else {
-        this.router.navigate(['/no-data-found']);
-      }
+        this.users.set(response);  
+        this.headers.set(Object.keys(response[0]));
+      } 
     });
   }
 
-  onRowClick(user: any) {
+  navigateToUserDetails(user: any) {
     this.router.navigate(['/user', user.id]);
   }
 

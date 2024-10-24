@@ -12,12 +12,4 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
-
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const defaultTheme = 'light';
-      document.body.className = defaultTheme;
-    }
-  }
 }

@@ -13,9 +13,9 @@
     left: 20px;
     background: transparent;
     border: 2px solid rgba(0, 0, 0, 0.7);
-    font-size: 30px;
     cursor: pointer;
-    color: rgba(0, 0, 0, 0.7);
+    font-size: 48px;
+    color: rgb(152, 154, 152);    
     padding: 10px;
     border:none;
     transition: all 0.3s ease;
@@ -31,8 +31,10 @@
     right: 20px;
 
     .dropdown-label {
-      font-size: 16px;
+      font-size: 20px;
       margin-right: 10px;
+      color: rgb(152, 154, 152);    
+
     }
 
     .styled-dropdown {

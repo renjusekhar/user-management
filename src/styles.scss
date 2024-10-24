@@ -1,5 +1,4 @@
 
-  
 $light-theme: (
   background-color: #fff,
   text-color: #000,
@@ -10,39 +9,15 @@ $dark-theme: (
   text-color: #fff,
 );
 
-body.light {
-    background-color: #ffffff;
-    color: #000000;
-  }
-  
-  body.dark {
-    background-color: #1e1e1e;
-    color: #ffffff;
-  }
-  
-.table-container {
-  width: 100%;
-  table {
-    width: 100%;
-    border-collapse: collapse;
-
-    th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
-    }
-
-    tr {
-      cursor: pointer;
-    }
-
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-  }
+@mixin apply-theme($theme) {
+  background-color: map-get($theme, background-color);
+  color: map-get($theme, text-color);
 }
 
-html, body {  margin: 0;
-    height: 100%; 
-    overflow: hidden;
+body.light-theme {
+  @include apply-theme($light-theme);
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body.dark-theme {
+  @include apply-theme($dark-theme);
+}
