@@ -1,10 +1,13 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
 .table-container {
   position: relative;
   padding: 10px;
 
   .virtual-scroll-viewport {
     height: 80vh;
-    border: 1px solid #ddd;
+    border: 1px solid $border-color;
     overflow: auto;
   }
 
@@ -16,75 +19,76 @@
     .header-cell, .editable-cell {
       padding: 10px;
       text-align: left;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $border-color;
       word-wrap: break-word;
     }
 
     .header-cell {
-      background-color: #333;
-      color: white;
+      background-color: $table-header-bg;
+      color: $text-color-light;
       text-transform: uppercase;
-      border-bottom: 2px solid #444;
+      border-bottom: 2px solid $table-header-border;
     }
 
     .table-row {
-      transition: background-color 0.2s ease;
-
+      @include transition(background-color);
+      
       &:hover {
-        background-color: #52cced;
+        background-color: $hover-color;
         cursor: pointer;
       }
 
       &.dark-row:hover {
-        background-color: #555;
+        background-color: $table-row-hover-bg-dark;
       }
 
       &.edit-list {
-        background-color: #b5ebf3ad;
-        border-left: 4px solid #00796b;
+        background-color: rgba(181, 235, 243, 0.68);
+        border-left: 4px solid darken($primary-color, 15%);
       }
     }
 
     .editable-cell[contenteditable] {
       border: 1px solid transparent;
       padding: 8px;
-      transition: border-color 0.3s;
+      @include transition(border-color 0.3s);
     }
 
     .editable-cell[contenteditable]:focus {
-      border-color: #1976d2;
+      border-color: $focus-border-color;
       outline: none;
     }
   }
+
   .edit-cell {
     background-color: transparent;
-    border: none; 
-    cursor: pointer; 
-    transition: transform 0.2s ease, background-color 0.2s ease; 
-  
+    border: none;
+    cursor: pointer;
+    @include transition(transform, background-color);
+
     &:hover {
-      transform: scale(1.1); 
-      background-color: rgba(82, 206, 237, 0.1); 
-      border-radius: 4px; 
+      transform: scale(1.1);
+      background-color: rgba($hover-color, 0.1);
+      border-radius: 4px;
     }
-  
+
     mat-icon {
-      color: #1976d2; 
-      transition: color 0.2s ease; 
+      color: $primary-color;
+      @include transition(color);
     }
-  
+
     &:hover mat-icon {
-      color: #0d47a1;
+      color: darken($primary-color, 20%);
     }
   }
 }
 
 .dark-row {
-  background-color: #444;
-  color: white;
+  background-color: $dark-bg-color;
+  color: $text-color-light;
 
   .editable-cell {
-    color: white;
+    color: $text-color-light;
   }
 }
 
@@ -94,7 +98,7 @@
   }
 
   .user-table {
-    font-size: 14px;
+    font-size: $font-size-mobile;
 
     .header-cell, .editable-cell {
       padding: 8px;
@@ -104,7 +108,7 @@
       height: 70vh;
       overflow-x: auto;
     }
-    
+
     @media (max-width: 576px) {
       .user-table,
       .table-header,
@@ -113,38 +117,37 @@
       .editable-cell,
       .table-row {
         display: block;
-        width: 100%; 
+        width: 100%;
       }
-    
+
       .table-header {
-        position: relative; 
-        top: auto; 
-        left: auto; 
-        margin-bottom: 10px; 
-        font-weight: bold; 
+        position: relative;
+        margin-bottom: 10px;
+        font-weight: bold;
       }
-    
+
       .table-row {
-        border: 1px solid #ddd;
+        border: 1px solid $border-color;
         margin-bottom: 5px;
-        padding: 10px; 
-        background-color: #f9f9f9; 
+        padding: 10px;
+        background-color: lighten($border-color, 40%);
       }
-     
+
       .editable-cell {
         position: relative;
         padding-left: 50%;
         text-align: right;
-    
+
         &:before {
           content: attr(data-label);
+          position: absolute;
           left: 10px;
           width: 45%;
           padding-right: 10px;
           white-space: nowrap;
           text-align: left;
           font-weight: bold;
-          color: #333; 
+          color: $text-color-dark;
         }
       }
     }

@@ -1,0 +1,25 @@
+@mixin button-styles($size) {
+    background: transparent;
+    border: 2px solid $primary-color;
+    color: $text-color;
+    cursor: pointer;
+    padding: $padding-small;
+    font-size: $size;
+    transition: $transition-all;
+  
+    &:hover {
+      transform: scale(1.5);
+      color: $hover-color;
+    }
+  }
+
+  @mixin flex-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @mixin transition($properties, $duration: 0.2s, $ease: ease) {
+    transition: $properties $duration $ease;
+  } 
+  

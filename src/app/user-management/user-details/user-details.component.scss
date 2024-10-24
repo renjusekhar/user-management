@@ -1,63 +1,70 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
 .page-container {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   height: 80vh;
-  padding: 20px;
-  position: relative;
+  padding: $padding-medium;
 
-  .header {
+  .back-button {
+    align-self: flex-start;
+    font-size: 48px;
+    background: transparent;
+    color: rgb(152, 154, 152);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      transform: scale(1.2);
+      color: #000;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 36px;
+      padding: 8px;
+    }
+  }
+
+  .dropdown-container {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-left: auto;
+    transition: transform 0.3s ease;
 
-    .back-button {
-      background: transparent;
-      border: 2px solid rgba(0, 0, 0, 0.7);
+    .dropdown-label {
+      font-size: $font-size-small;
+      margin-right: 10px;
+      color: $text-color;
+    }
+
+    .styled-dropdown {
+      background-color: $dropdown-bg;
+      border: 1px solid $border-color;
+      border-radius: 5px;
+      padding: $padding-small;
+      font-size: $font-size-dropdown;
+      color: #333;
       cursor: pointer;
-      font-size: 48px;
-      color: rgb(152, 154, 152);
-      padding: 10px;
-      border: none;
-      transition: all 0.3s ease;
-      margin-left: 20px;
-      position: relative;
+      transition: background-color 0.3s ease, transform 0.3s ease;
 
       &:hover {
-        transform: scale(1.5);
-        color: #000;
+        background-color: lighten($dropdown-bg, 10%);
+        transform: translateY(-5px);
       }
 
-      @media (max-width: 768px) {
-        font-size: 36px;
-        padding: 8px;
+      &:focus {
+        outline: none;
+        background-color: lighten($dropdown-bg, 15%);
       }
     }
 
-    .dropdown-container {
-      display: flex;
-      align-items: center;
-
-      .dropdown-label {
-        font-size: 20px;
-        margin-right: 10px;
-        color: rgb(152, 154, 152);
-      }
-
-      .styled-dropdown {
-        background-color: #d3d3d3;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 16px;
-        color: #333;
-        cursor: pointer;
-      }
-
-      @media (max-width: 768px) {
-        display: none;
-      }
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 
@@ -68,29 +75,20 @@
     position: relative;
     width: 100%;
     margin: 0 auto;
-    flex-grow: 1;
+    flex-grow: .8;
 
     .carousel-button {
-      background: transparent;
-      border: 2px solid rgba(0, 0, 0, 0.7);
-      font-size: 72px;
-      color: rgb(152, 154, 152);
-      cursor: pointer;
-      padding: 20px;
+      @include button-styles(72px);
+      padding: $padding-large;
       border: none;
-      transition: all 0.3s ease;
 
-      &:hover {
-        transform: scale(1.5);
+      &.prev-button {
+        margin-right: auto;
       }
-    }
 
-    .prev-button {
-      margin-right: auto;
-    }
-
-    .next-button {
-      margin-left: auto;
+      &.next-button {
+        margin-left: auto;
+      }
     }
   }
 
@@ -105,7 +103,7 @@
 
   .user-card {
     border-radius: 10px;
-    padding: 40px;
+    padding: $padding-large;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
@@ -120,7 +118,7 @@
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 20px rgba(0, 102, 204, 0.5), 0 0 30px rgba(0, 102, 204, 0.3);
+      box-shadow: 0 0 20px $highlight-color, 0 0 30px $highlight-shadow;
       transform: translateZ(5px);
     }
   }
@@ -131,13 +129,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #d3d3d3;
+    background-color: $dropdown-bg;
     border-radius: 50%;
     color: black;
     font-size: 50px;
     font-weight: bold;
   }
-
+  
   .user-avatar {
     text-align: center;
     line-height: 150px;
@@ -149,9 +147,8 @@
     .carousel-button {
       font-size: 40px;
     }
-
     .user-card {
-      padding: 20px;
+      padding: $padding-small;
       max-width: 90%;
     }
   }
