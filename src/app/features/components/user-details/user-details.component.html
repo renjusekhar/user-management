@@ -1,50 +1,16 @@
-<!-- <div class="page-container">
-  <button (click)="goBack()" class="back-button">←</button>
-  <div class="dropdown-container">
-    <label for="userDropdown" class="dropdown-label">Select User:</label>
-    <select id="userDropdown" [(ngModel)]="selectedUserId" (change)="updateSelectedUser()" class="styled-dropdown">
-      @for(user of users(); track user){
-        <option [value]="user.id">{{user.name}}</option>
-      }
-    </select>
-  </div>
-  <div class="carousel-container">
-    <button (click)="selectPreviousUser()" class="carousel-button prev-button">‹</button>
-    <div class="user-details-container">
-      <div class="user-card" *ngIf="selectedUser" tabindex="0">
-        <div class="user-avatar-container">
-          <div class="user-avatar">
-            {{ getUserInitials(selectedUser.name) }}
-          </div>
-        </div>
-        <div class="user-info">
-          <h2>{{ selectedUser.name | uppercase }}</h2>
-          <p>{{ selectedUser.id }}</p>
-          <p>{{ selectedUser.language }}</p>
-        </div>
-      </div>
-    </div>
-    <button (click)="selectNextUser()" class="carousel-button next-button">›</button>
-  </div>
-</div> -->
-
 <div class="page-container">
   <button (click)="goBack()" class="back-button">←</button>
-  
   <div class="dropdown-container">
-    <label for="userDropdown" class="dropdown-label">Select User:</label>
+    <label for="userDropdown" class="dropdown-label">SELECT USER:</label>
     <select id="userDropdown" [(ngModel)]="selectedUserId" (change)="updateSelectedUser()" class="styled-dropdown">
       <option *ngFor="let user of users()" [value]="user.id">{{user.name}}</option>
     </select>
   </div>
-
   <div class="carousel-container">
     <button (click)="selectPreviousUser()" class="carousel-button prev-button">‹</button>
-    
     <div class="user-details-container">
       <app-user-card [user]="selectedUser"></app-user-card>
     </div>
-
     <button (click)="selectNextUser()" class="carousel-button next-button">›</button>
   </div>
 </div>

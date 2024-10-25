@@ -7,7 +7,6 @@
 
   .virtual-scroll-viewport {
     height: 80vh;
-    border: 1px solid $border-color;
     overflow: auto;
   }
 
@@ -16,10 +15,10 @@
     border-collapse: collapse;
     table-layout: auto;
 
-    .header-cell, .editable-cell {
+    .header-cell,
+    .editable-cell {
       padding: 10px;
       text-align: left;
-      border-bottom: 1px solid $border-color;
       word-wrap: break-word;
     }
 
@@ -32,10 +31,10 @@
 
     .table-row {
       @include transition(background-color);
-      
       &:hover {
         background-color: $hover-color;
         cursor: pointer;
+        color: rgb(0, 0, 0);
       }
 
       &.dark-row:hover {
@@ -43,112 +42,136 @@
       }
 
       &.edit-list {
-        background-color: rgba(181, 235, 243, 0.68);
+        background-color: rgba(173, 244, 254, 0.68);
         border-left: 4px solid darken($primary-color, 15%);
-      }
-    }
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.3s ease;
+        transform: scale(1);
 
-    .editable-cell[contenteditable] {
-      border: 1px solid transparent;
-      padding: 8px;
-      @include transition(border-color 0.3s);
-    }
-
-    .editable-cell[contenteditable]:focus {
-      border-color: $focus-border-color;
-      outline: none;
-    }
-  }
-
-  .edit-cell {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    @include transition(transform, background-color);
-
-    &:hover {
-      transform: scale(1.1);
-      background-color: rgba($hover-color, 0.1);
-      border-radius: 4px;
-    }
-
-    mat-icon {
-      color: $primary-color;
-      @include transition(color);
-    }
-
-    &:hover mat-icon {
-      color: darken($primary-color, 20%);
-    }
-  }
-}
-
-.dark-row {
-  background-color: $dark-bg-color;
-  color: $text-color-light;
-
-  .editable-cell {
-    color: $text-color-light;
-  }
-}
-
-@media (max-width: 768px) {
-  .table-container {
-    padding: 5px;
-  }
-
-  .user-table {
-    font-size: $font-size-mobile;
-
-    .header-cell, .editable-cell {
-      padding: 8px;
-    }
-
-    .virtual-scroll-viewport {
-      height: 70vh;
-      overflow-x: auto;
-    }
-
-    @media (max-width: 576px) {
-      .user-table,
-      .table-header,
-      .table-body,
-      .header-cell,
-      .editable-cell,
-      .table-row {
-        display: block;
-        width: 100%;
-      }
-
-      .table-header {
-        position: relative;
-        margin-bottom: 10px;
-        font-weight: bold;
-      }
-
-      .table-row {
-        border: 1px solid $border-color;
-        margin-bottom: 5px;
-        padding: 10px;
-        background-color: lighten($border-color, 40%);
-      }
-
-      .editable-cell {
-        position: relative;
-        padding-left: 50%;
-        text-align: right;
-
-        &:before {
-          content: attr(data-label);
-          position: absolute;
-          left: 10px;
-          width: 45%;
-          padding-right: 10px;
-          white-space: nowrap;
-          text-align: left;
-          font-weight: bold;
-          color: $text-color-dark;
+        &:hover {
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
+      }
+    }
+
+    .editable-cell {
+      position: relative;
+      transition: border-color 0.3s, background-color 0.3s;
+
+      input {
+        width: 100%;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 16px;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: none;
+
+        &:focus {
+          outline: none;
+          background-color: #ffffff;
+          box-shadow: 0 0 5px rgba($focus-border-color, 0.5);
+        }
+
+        &:hover {
+          background-color: lighten(#f9f9f9, 5%);
+        }
+      }
+    }
+
+    .edit-cell {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      @include transition(transform, background-color);
+
+      &:hover {
+        transform: scale(1.1);
+        background-color: rgba($hover-color, 0.1);
+        border-radius: 4px;
+      }
+
+      mat-icon {
+        color: $primary-color;
+        @include transition(color);
+      }
+
+      &:hover mat-icon {
+        color: darken($primary-color, 20%);
+      }
+    }
+  }
+
+  .dark-row {
+    background-color: $dark-bg-color;
+    color: $text-color-light;
+
+    .editable-cell {
+      color: $text-color-light;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .table-container {
+      padding: 5px;
+    }
+
+    .user-table {
+      font-size: $font-size-mobile;
+
+      .header-cell,
+      .editable-cell {
+        padding: 8px;
+      }
+
+      .virtual-scroll-viewport {
+        height: 70vh;
+        overflow-x: auto;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+
+    .user-table,
+    .table-header,
+    .table-body,
+    .header-cell,
+    .editable-cell,
+    .table-row {
+      display: block;
+      width: 100%;
+    }
+
+    .table-header {
+      position: relative;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .table-row {
+      border: 1px solid $border-color;
+      margin-bottom: 5px;
+      padding: 10px;
+      background-color: lighten($border-color, 40%);
+    }
+
+    .editable-cell {
+      position: relative;
+      padding-left: 50%;
+      text-align: right;
+
+      &:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: $text-color-dark;
       }
     }
   }

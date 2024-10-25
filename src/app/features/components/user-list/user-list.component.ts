@@ -7,11 +7,13 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../types/user.model';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-user-table',
   standalone: true,
-  imports: [CommonModule, ScrollingModule, MatIconModule],
+  imports: [CommonModule, ScrollingModule, MatIconModule, FormsModule],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
 })
@@ -47,7 +49,7 @@ export class UserListComponent implements OnInit {
   }
 
   editList(userId: string) {
-    this.editListId = userId;
+    this.editListId = this.editListId === userId ? null : userId; // Toggle edit mode
     const selectedRow = this.userRows.find((row) => {
       return row.nativeElement.id === `user-row-${userId}`;
     });
@@ -55,9 +57,10 @@ export class UserListComponent implements OnInit {
       const editableRow = selectedRow.nativeElement.querySelectorAll('.editable-cell');
       if (editableRow.length > 0) {
         requestAnimationFrame(() => {
-          (editableRow[0] as HTMLTableCellElement).focus();
+          (editableRow[0] as HTMLInputElement).focus();
         });
       }
     }
   }
+  
 }

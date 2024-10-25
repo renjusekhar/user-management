@@ -39,7 +39,8 @@
     .dropdown-label {
       font-size: $font-size-small;
       margin-right: 10px;
-      color: $text-color;
+      color: inherit;
+
     }
 
     .styled-dropdown {

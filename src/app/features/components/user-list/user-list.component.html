@@ -10,11 +10,14 @@
         </tr>
       </thead>
       <tbody class="table-body">
-        <tr class="table-row" *cdkVirtualFor="let user of users()" 
-            (click)="navigateToUserDetails(user)" 
+        <tr class="table-row" *cdkVirtualFor="let user of users()"
+            (click)="navigateToUserDetails(user)"
             [ngClass]="{'dark-row': false, 'edit-list': editListId === user.id}" #user>
           @for(key of headers(); track key) {
-            <td class="editable-cell" contenteditable="true"  #editableRow>
+            <td class="editable-cell" *ngIf="editListId === user.id">
+              <input [(ngModel)]="user[key]" type="text" class="input-field" />
+            </td>
+            <td class="editable-cell" *ngIf="editListId !== user.id">
               {{ user[key] }}
             </td>
           }
