@@ -10,8 +10,9 @@ import { Component } from '@angular/core';
   `,
   styles: [`
     .footer {
-      background-color: #333;
-      color: white;
+
+      background-color: #0079f2;
+      color: #FFFF;
       padding: 10px;
       text-align: center;
       position: fixed;

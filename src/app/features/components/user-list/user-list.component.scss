@@ -6,8 +6,48 @@
   padding: 10px;
 
   .virtual-scroll-viewport {
-    height: 80vh;
+    height: 76vh;
     overflow: auto;
+  }
+
+  .no-data-message {
+    font-size: 1.5rem;
+    color: #757575;
+    text-align: center;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  /* Simple fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .search-container {
+    width: 100%;
+    display: flex;
+
+    .search-bar {
+      width: 100%;
+      flex: 1;
+      color: inherit;
+
+      input {
+        color: inherit;
+        width: 100%;
+      }
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
   }
 
   .user-table {
@@ -33,8 +73,8 @@
       @include transition(background-color);
       &:hover {
         background-color: $hover-color;
-        cursor: pointer;
         color: rgb(0, 0, 0);
+        cursor: pointer;
       }
 
       &.dark-row:hover {
@@ -42,7 +82,7 @@
       }
 
       &.edit-list {
-        background-color: rgba(173, 244, 254, 0.68);
+        background-color: rgb(205 205 205 / 68%);
         border-left: 4px solid darken($primary-color, 15%);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         transition: box-shadow 0.3s ease;
@@ -113,9 +153,7 @@
   }
 
   @media (max-width: 768px) {
-    .table-container {
-      padding: 5px;
-    }
+    padding: 5px;
 
     .user-table {
       font-size: $font-size-mobile;
@@ -133,7 +171,6 @@
   }
 
   @media (max-width: 576px) {
-
     .user-table,
     .table-header,
     .table-body,
@@ -158,9 +195,9 @@
     }
 
     .editable-cell {
-      position: relative;
       padding-left: 50%;
       text-align: right;
+      position: relative;
 
       &:before {
         content: attr(data-label);

@@ -17,6 +17,9 @@ $dark-theme: (
 body.light-theme {
   @include apply-theme($light-theme);
 }
+body {
+  margin: 0;
+}
 
 body.dark-theme {
   @include apply-theme($dark-theme);

@@ -9,16 +9,41 @@
   height: 80vh;
   padding: $padding-medium;
 
+  .bio-container {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    &:focus-within {
+      box-shadow: 0 8px 16px rgba(0, 121, 242, 0.4);
+      transform: scale(1.02);
+    }
+
+    .bio-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0079f2;
+      margin-bottom: 10px;
+    }
+
+    .bio-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: inherit;
+    }
+  }
+
   .back-button {
     align-self: flex-start;
-    font-size: 48px;
+    font-size: $font-size-medium;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    transition: transform 0.3s ease, color 0.3s ease;
     color: inherit;
-
+    transition: transform 0.3s ease, color 0.3s ease;
 
     &:hover {
       transform: scale(1.2);
@@ -40,7 +65,6 @@
       font-size: $font-size-small;
       margin-right: 10px;
       color: inherit;
-
     }
 
     .styled-dropdown {
@@ -49,13 +73,13 @@
       border-radius: 5px;
       padding: $padding-small;
       font-size: $font-size-dropdown;
-      color: #333;
       cursor: pointer;
+      color: #333;
       transition: background-color 0.3s ease, transform 0.3s ease;
 
       &:hover {
         background-color: lighten($dropdown-bg, 10%);
-        transform: translateY(-5px);
+        transform: translateY(-3px);
       }
 
       &:focus {
@@ -79,9 +103,6 @@
 
     .carousel-button {
       font-size: 60px;
-      padding: 0;
-      cursor: pointer;
-      transition: transform 0.3s ease;
       width: 80px;
       height: 80px;
       display: flex;
@@ -89,7 +110,9 @@
       justify-content: center;
       background: transparent;
       border: none;
+      cursor: pointer;
       color: inherit;
+      transition: transform 0.3s ease;
 
       &:hover {
         transform: scale(1.5);
@@ -97,12 +120,10 @@
 
       &.prev-button {
         margin-right: auto;
-        align-self: center;
       }
 
       &.next-button {
         margin-left: auto;
-        align-self: center;
       }
     }
 
