@@ -1,13 +1,15 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'; 
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../features/services/user.service';
+import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
-import { User } from '../../features/types/user.model';
+import { User } from '../../types/user.model';
+import { UserCardComponent } from '../../../layout/user-card/user-card.component';
+
 @Component({
 	selector: 'app-user-details',
 	standalone: true,
-	imports: [CommonModule, FormsModule],
+	imports: [CommonModule, FormsModule, UserCardComponent],
 	templateUrl: './user-details.component.html',
 	styleUrls: ['./user-details.component.scss'],
 })
@@ -16,9 +18,7 @@ export class UserDetailsComponent implements OnInit {
 	users = signal<User[]>([]);
 	selectedUserId: string = '';
 	selectedUser: User | null = null;
-
 	constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) { }
-
 	ngOnInit(): void {
 		this.userService.getUsers().subscribe((response: User[] | never) => {
 			this.users.set(response);

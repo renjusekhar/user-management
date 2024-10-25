@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { UserService } from '../../features/services/user.service';
+import { UserService } from '../../services/user.service';
 import { UserListComponent } from './user-list.component';
 
 describe('UserListComponent', () => {

@@ -1,0 +1,14 @@
+<div class="carousel-container">
+<div class="user-card" *ngIf="user" tabindex="0">
+    <div class="user-avatar-container">
+      <div class="user-avatar">
+        {{ getUserInitials(user.name) }}
+      </div>
+    </div>
+    <div class="user-info">
+      <h2>{{ user.name }}</h2>
+      <p>{{ user.id }}</p>
+      <p>{{ user.language }}</p>
+    </div>
+  </div>
+</div>
