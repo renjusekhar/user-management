@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, BehaviorSubject } from 'rxjs';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../features/services/user.service';
 import { UserDetailsComponent } from './user-details.component';
 
 describe('UserDetailsComponent', () => {

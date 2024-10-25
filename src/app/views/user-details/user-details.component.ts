@@ -1,9 +1,9 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'; 
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../features/services/user.service';
 import { FormsModule } from '@angular/forms';
-import { User } from '../../models/user.model';
+import { User } from '../../features/types/user.model';
 @Component({
 	selector: 'app-user-details',
 	standalone: true,

@@ -3,17 +3,17 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'user/:id',
-    loadComponent: () => import('./user-management/user-details/user-details.component').then(m => m.UserDetailsComponent),
+    loadComponent: () => import('./views/user-details/user-details.component').then(m => m.UserDetailsComponent),
     title: 'User Details'
   },
   {
     path: 'list',
-    loadComponent: () => import('./user-management/user-list/user-list.component').then(m => m.UserListComponent),
+    loadComponent: () => import('./views/user-list/user-list.component').then(m => m.UserListComponent),
     title: 'User List'
   },
   {
     path: '',
-    loadComponent: () => import('./user-management/user-list/user-list.component').then(m => m.UserListComponent),
+    loadComponent: () => import('./views/user-list/user-list.component').then(m => m.UserListComponent),
     title: 'User List'
   },
   {

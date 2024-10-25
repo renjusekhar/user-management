@@ -1,12 +1,12 @@
 import { Component, OnInit, signal, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../features/services/user.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import { User } from '../../models/user.model';
+import { User } from '../../features/types/user.model';
 
 @Component({
   selector: 'app-user-table',
