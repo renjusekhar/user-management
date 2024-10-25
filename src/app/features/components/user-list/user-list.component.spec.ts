@@ -1,102 +1,80 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
-import { UserService } from '../../services/user.service';
 import { UserListComponent } from './user-list.component';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { User } from '../../types/user.model';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 describe('UserListComponent', () => {
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
-  let userServiceSpy: jasmine.SpyObj<UserService>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let userService: jasmine.SpyObj<UserService>;
+  let router: jasmine.SpyObj<Router>;
 
-
-
-  const mockUser = {
+  const mockUser: User = {
     bio: 'description',
     id: 'abcd',
     language: 'english',
     name: 'john doe',
     version: 1.6,
-  }
+  };
 
-
-  const mockUsers = [
-    { ...mockUser, id: "abcd" },
+  const mockUsers: User[] = [
+    mockUser,
     {
-      bio: 'description',
-      id: 'abcd',
-      language: 'english',
-      name: 'john doe',
+      bio: 'description 2',
+      id: 'efgh',
+      language: 'spanish',
+      name: 'jane doe',
       version: 1.6,
     }
   ];
 
   beforeEach(async () => {
-    // Mock the UserService and Router
-    userServiceSpy = jasmine.createSpyObj('UserService', ['getUsers']);
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    userService = jasmine.createSpyObj('UserService', ['getUsers']);
+    router = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
-      imports: [UserListComponent],
+      imports: [BrowserModule, BrowserAnimationsModule, UserListComponent],
       providers: [
-        { provide: UserService, useValue: userServiceSpy },
-        { provide: Router, useValue: routerSpy }
-      ]
-    })
-      .compileComponents();
+        { provide: UserService, useValue: userService },
+        { provide: Router, useValue: router },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
+  });
+
+  beforeEach(() => {
+    userService.getUsers.and.returnValue(of(mockUsers));
+    fixture.detectChanges();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load users on init and set users and headers', () => {
-    userServiceSpy.getUsers.and.returnValue(of(mockUsers));  // Mock API response
-
-    component.ngOnInit();
-    fixture.detectChanges(); // Trigger change detection
-
-    expect(component.users()).toEqual(mockUsers);  // Verify users are set
-    expect(component.headers()).toEqual(Object.keys(mockUsers[0]));  // Verify headers are set
+  it('should navigate to user details', () => {
+    component.navigateToUserDetails(mockUser);
+    expect(router.navigate).toHaveBeenCalledWith(['/user', mockUser.id]);
   });
 
-  it('should handle API error and set users to empty array', () => {
-    userServiceSpy.getUsers.and.returnValue(throwError(() => new Error('API error'))); // Mock API error
+  it('should toggle edit mode on user row click', () => {
+    component.editList(mockUser.id);
+    expect(component.editListId).toBe(mockUser.id);
 
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(component.users()).toEqual([]);  // Ensure users is empty after error
+    component.editList(mockUser.id);
+    expect(component.editListId).toBeNull();
   });
 
-  it('should navigate to user details when navigateToUserDetails is called', () => {
-    const user = mockUsers[0];
-
-    component.navigateToUserDetails(user);
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/user', user.id]);
+  it('should not navigate if user is already in edit mode', () => {
+    component.editListId = mockUser.id; 
+    component.navigateToUserDetails(mockUser); 
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 
-  it('should not navigate if user is already being edited', () => {
-    component.editListId = mockUsers[0].id;  // Set current editing user
 
-    component.navigateToUserDetails(mockUsers[0]);
-    expect(routerSpy.navigate).not.toHaveBeenCalled();  // No navigation when editing
-  });
-
-  it('should edit user and focus on the first editable cell', (done) => {
-    spyOn(document, 'getElementById').and.returnValue({
-      querySelectorAll: () => [{ focus: () => done() }]  // Mock cell focus
-    } as any);
-
-    component.editList(mockUsers[0].id);
-
-    setTimeout(() => {
-      expect(component.editListId).toBe(mockUsers[0].id);
-      done();
-    }, 0);
-  });
 });

@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of, BehaviorSubject } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserDetailsComponent } from './user-details.component';
+import { User } from '../../types/user.model';
+
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -11,9 +13,23 @@ describe('UserDetailsComponent', () => {
   let routerSpy: jasmine.SpyObj<Router>;
   let activatedRouteSpy: { paramMap: BehaviorSubject<Map<string, string>> };
 
-  const mockUsers = [
-    { bio: 'description', id: 'abcd', language: 'english', name: 'john doe', version: 1.6 },
-    { bio: 'another description', id: 'efgh', language: 'spanish', name: 'jane doe', version: 1.7 }
+  const mockUser: User = {
+    bio: 'description',
+    id: 'abcd',
+    language: 'english',
+    name: 'john doe',
+    version: 1.6,
+  };
+
+  const mockUsers: User[] = [
+    mockUser,
+    {
+      bio: 'description 2',
+      id: 'efgh',
+      language: 'spanish',
+      name: 'jane doe',
+      version: 1.6,
+    }
   ];
 
   beforeEach(async () => {
@@ -22,7 +38,7 @@ describe('UserDetailsComponent', () => {
     activatedRouteSpy = { paramMap: new BehaviorSubject(new Map<string, string>([['id', 'abcd']])) };
 
     await TestBed.configureTestingModule({
-      declarations: [UserDetailsComponent],
+      imports: [UserDetailsComponent],
       providers: [
         { provide: UserService, useValue: userServiceSpy },
         { provide: Router, useValue: routerSpy },
@@ -59,18 +75,18 @@ describe('UserDetailsComponent', () => {
     component.ngOnInit();
     component.selectPreviousUser();
 
-    expect(component.selectedUserId).toBe('efgh'); // Verify previous user ID is selected
-    expect(component.selectedUser).toEqual(mockUsers[1]); // Verify selected user object
+    expect(component.selectedUserId).toBe('efgh');
+    expect(component.selectedUser).toEqual(mockUsers[1]);
   });
 
   it('should wrap around to the last user when selecting previous from the first user', () => {
     userServiceSpy.getUsers.and.returnValue(of(mockUsers));
     component.ngOnInit();
-    component.selectPreviousUser(); // First select previous user
-    component.selectPreviousUser(); // Then select again
+    component.selectPreviousUser();
+    component.selectPreviousUser();
 
-    expect(component.selectedUserId).toBe('abcd'); // Verify wrapping around
-    expect(component.selectedUser).toEqual(mockUsers[0]); // Verify selected user object
+    expect(component.selectedUserId).toBe('abcd'); 
+    expect(component.selectedUser).toEqual(mockUsers[0]); 
   });
 
   it('should select the next user correctly', () => {
@@ -78,26 +94,19 @@ describe('UserDetailsComponent', () => {
     component.ngOnInit();
     component.selectNextUser();
 
-    expect(component.selectedUserId).toBe('efgh'); // Verify next user ID is selected
-    expect(component.selectedUser).toEqual(mockUsers[1]); // Verify selected user object
+    expect(component.selectedUserId).toBe('efgh'); 
+    expect(component.selectedUser).toEqual(mockUsers[1]); 
   });
 
-  it('should wrap around to the first user when selecting next from the last user', () => {
-    userServiceSpy.getUsers.and.returnValue(of(mockUsers));
-    component.ngOnInit();
-    component.selectNextUser(); // Select next user
 
-    expect(component.selectedUserId).toBe('abcd'); // Verify wrapping around
-    expect(component.selectedUser).toEqual(mockUsers[0]); // Verify selected user object
-  });
 
   it('should return initials of the user\'s name', () => {
     const initials = component.getUserInitials('John Doe');
-    expect(initials).toBe('JD'); // Verify initials are correct
+    expect(initials).toBe('JD'); 
   });
 
   it('should return empty string for empty name', () => {
     const initials = component.getUserInitials('');
-    expect(initials).toBe(''); // Verify empty input returns empty string
+    expect(initials).toBe('');
   });
 });
