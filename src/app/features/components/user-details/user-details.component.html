@@ -9,12 +9,12 @@
   <div class="carousel-container">
     <button (click)="selectPreviousUser()" class="carousel-button prev-button">‹</button>
     <div class="user-details-container">
-      <app-user-card [user]="selectedUser"></app-user-card>
+      <app-user-card [user]="selectedUser()"></app-user-card>
     </div>
     <button (click)="selectNextUser()" class="carousel-button next-button">›</button>
   </div>
   <div class="bio-container">
     <h3 class="bio-title">Bio</h3>
-    <p class="bio-text">{{selectedUser?.bio}}</p>
+    <p class="bio-text">{{selectedUser()?.bio}}</p>
   </div>
 </div>

@@ -8,8 +8,8 @@ import { User } from '../types/user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = '/Demos/json-dummy-data/64KB.json';
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = '/Demos/json-dummy-data/64KB.json';
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(

@@ -1,10 +1,10 @@
-import { Component, OnInit, signal, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, ElementRef, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { UserStateService } from '../../services/user-state.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { catchError, debounceTime } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { User } from '../../types/user.model';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,58 +19,35 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
-  users = signal<User[]>([]);
-  filteredUsers = signal<User[]>([]);
-  headers = signal<string[]>([]);
-  editListId: string | null = null;
-  searchTerm = '';
-  searchSubject = new Subject<string>();
   @ViewChildren('user') userRows!: QueryList<ElementRef>;
   @ViewChildren('editableRow') editableRow!: QueryList<ElementRef>;
+  private userStateService = inject(UserStateService)
+  private router = inject(Router)
+  private searchSubject = new Subject<string>();
+  protected editListId: string | null = null;
+  protected searchTerm: string = '';
+  protected sortField: string = 'name';
+  protected sortAscending: boolean = true;
+  protected readonly headers = this.userStateService.headers;
+  protected readonly users = this.userStateService.users;
 
-  constructor(private userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.userService.getUsers().pipe(
-      catchError((error) => {
-        console.error('Error fetching users:', error);
-        return of([]);
-      })
-    ).subscribe((response: User[]) => {
-      if (Array.isArray(response) && response.length > 0) {
-        this.users.set(response);
-        this.filteredUsers.set(response);
-        this.headers.set(Object.keys(response[0]));
-      } else {
-        console.warn('Received response is not a valid user array or is empty');
-      }
-    });
-    this.searchSubject.pipe(debounceTime(300)).subscribe(() => {
-      this.filterUsers();
+  ngOnInit(){
+    this.userStateService.getAllUsers();
+    this.searchSubject.pipe(debounceTime(300)).subscribe((searchTerm) => {
+      this.userStateService.filterUsers(searchTerm);
     });
   }
-
-  debouncedFilterUsers() {
-    this.searchSubject.next(this.searchTerm); 
-  }
-
-  filterUsers() {
-    const term = this.searchTerm.toLowerCase();
-    const filtered = this.users().filter(user =>
-      Object.values(user).some(value =>
-        String(value).toLowerCase().includes(term)
-      )
-    );
-    this.filteredUsers.set(filtered);
+ 
+  searchUsers() {
+    this.searchSubject.next(this.searchTerm);
   }
 
   navigateToUserDetails(user: User) {
-    if (this.editListId !== user.id) {
       this.router.navigate(['/user', user.id]);
-    }
   }
 
-  editList(userId: string) {
+  editUser(userId: string) {
     this.editListId = this.editListId === userId ? null : userId;
     const selectedRow = this.userRows.find((row) => row.nativeElement.id === `user-row-${userId}`);
     if (selectedRow) {
@@ -81,5 +58,10 @@ export class UserListComponent implements OnInit {
         });
       }
     }
+  }
+
+  toggleSort() {
+    this.sortAscending = !this.sortAscending;
+    this.userStateService.sortUsers(this.sortField as keyof User, this.sortAscending);
   }
 }

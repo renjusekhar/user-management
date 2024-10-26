@@ -29,21 +29,41 @@
     }
   }
 
+  .sort-button {
+    height: 56px;
+    padding: 12px;
+    border-radius: 11px;
+    color: #ffffff;
+    background-color: #232425;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    margin-left: 10px;
+    border: none;
+
+    &:hover {
+      background-color: #1565c0;
+      transform: scale(1.1);
+    }
+
+    mat-icon { // need to add class
+      font-size: 24px;
+    }
+  }
+
   .search-container {
     width: 100%;
     display: flex;
 
     .search-bar {
-      width: 100%;
       flex: 1;
       color: inherit;
 
-      input {
-        color: inherit;
+      .mat-form-field {
         width: 100%;
       }
 
-      .mat-form-field {
+      input {
+        color: inherit;
         width: 100%;
       }
     }
@@ -70,6 +90,7 @@
 
     .table-row {
       @include transition(background-color);
+      
       &:hover {
         background-color: $hover-color;
         color: rgb(0, 0, 0);
@@ -81,7 +102,7 @@
       }
 
       &.edit-list {
-        background-color: rgb(205 205 205 / 68%);
+        background-color: rgba(205, 205, 205, 0.68);
         border-left: 4px solid darken($primary-color, 15%);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         transition: box-shadow 0.3s ease;
@@ -171,8 +192,6 @@
 
   @media (max-width: 576px) {
     .user-table,
-    .table-header,
-    .table-body,
     .header-cell,
     .editable-cell,
     .table-row {
@@ -196,7 +215,6 @@
     .editable-cell {
       padding-left: 50%;
       text-align: right;
-      position: relative;
 
       &:before {
         content: attr(data-label);
