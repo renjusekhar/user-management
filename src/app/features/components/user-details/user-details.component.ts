@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject, effect } from '@angular/core';
+import { Component, OnInit, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserStateService } from '../../services/user-state.service';
@@ -12,6 +12,8 @@ import { UserCardComponent } from '../../../layout/user-card/user-card.component
   imports: [CommonModule, FormsModule, UserCardComponent],
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class UserDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute)

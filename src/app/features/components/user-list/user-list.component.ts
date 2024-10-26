@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren, ElementRef, inject, effect } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, ElementRef, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserStateService } from '../../services/user-state.service';
@@ -20,6 +20,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
             MatTooltipModule],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class UserListComponent implements OnInit {
   @ViewChildren('user') userRows!: QueryList<ElementRef>;
