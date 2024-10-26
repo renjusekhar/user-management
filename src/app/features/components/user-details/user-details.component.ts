@@ -1,5 +1,5 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; 
+import { Component, OnInit, signal, inject, effect } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserStateService } from '../../services/user-state.service';
 import { FormsModule } from '@angular/forms';
@@ -17,23 +17,24 @@ export class UserDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute)
   private readonly router = inject(Router)
 
-	private readonly userStateService = inject(UserStateService)
+  private readonly userStateService = inject(UserStateService)
   protected selectedUserId: string = '';
-  protected selectedUser = signal<User | null>(null); 
+  protected selectedUser = signal<User | null>(null);
   protected readonly users = this.userStateService.users;
 
-   ngOnInit() {
-    this.userStateService.getAllUsers();
+  ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.selectedUserId = params.get('id') || '';
-      this.updateSelectedUser(); 
+      this.userStateService.getAllUsers().then(() => {
+        this.updateSelectedUser();
+      });
     });
   }
 
   updateSelectedUser(): void {
     const user = this.users().find((user: User) => user.id === this.selectedUserId);
     if (user) {
-	  this.selectedUser.set(user); 
+      this.selectedUser.set(user);
       this.router.navigate(['/user', user.id]);
     }
   }
@@ -53,7 +54,7 @@ export class UserDetailsComponent implements OnInit {
     const currentIndex = this.users().findIndex(user => user.id === this.selectedUserId);
     const nextIndex = (currentIndex === this.users.length - 1) ? 0 : currentIndex + 1;
     this.selectedUserId = this.users()[nextIndex].id;
-    this.updateSelectedUser(); 
+    this.updateSelectedUser();
   }
 
   getUserInitials(name: string): string {

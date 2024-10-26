@@ -1,13 +1,7 @@
 <div class="table-container">
   <div class="search-container">
     <mat-form-field appearance="outline" class="search-bar">
-      <mat-label>Search</mat-label>
-      <input
-        matInput
-        [(ngModel)]="searchTerm"
-        placeholder="Search users"
-        (ngModelChange)="searchUsers()"
-      />
+      <input matInput [(ngModel)]="searchTerm" placeholder="Search users" (ngModelChange)="searchUsers()" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <button mat-icon-button class="sort-button" (click)="toggleSort()">
@@ -28,20 +22,15 @@
         </tr>
       </thead>
       <tbody class="table-body">
-        <tr
-          *cdkVirtualFor="let user of users()"
-          class="table-row"
-          [ngClass]="{ 'dark-row': false, 'edit-list': editListId === user.id }"
-          #user
-        >
-          <td  *ngFor="let key of headers()" class="editable-cell"           (click)="navigateToUserDetails(user)"
-          >
+        <tr *cdkVirtualFor="let user of users()" class="table-row"
+          [ngClass]="{ 'dark-row': false, 'edit-list': editListId === user.id }" #user>
+          <td *ngFor="let key of headers()" class="editable-cell" (click)="navigateToUserDetails(user)">
             <span *ngIf="editListId !== user.id">{{ user[key] }}</span>
             <input *ngIf="editListId === user.id" [(ngModel)]="user[key]" type="text" class="input-field" />
           </td>
           <td>
             <button class="edit-cell" mat-icon-button (click)="editUser(user.id)">
-              <mat-icon>edit</mat-icon>
+              <mat-icon class="edit-icon">edit</mat-icon>
             </button>
           </td>
         </tr>

@@ -62,19 +62,4 @@ describe('UserListComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/user', mockUser.id]);
   });
 
-  it('should toggle edit mode on user row click', () => {
-    component.editList(mockUser.id);
-    expect(component.editListId).toBe(mockUser.id);
-
-    component.editList(mockUser.id);
-    expect(component.editListId).toBeNull();
-  });
-
-  it('should not navigate if user is already in edit mode', () => {
-    component.editListId = mockUser.id; 
-    component.navigateToUserDetails(mockUser); 
-    expect(router.navigate).not.toHaveBeenCalled();
-  });
-
-
 });

@@ -24,6 +24,7 @@
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
@@ -43,16 +44,31 @@
     &:hover {
       background-color: #1565c0;
       transform: scale(1.1);
-    }
-
-    mat-icon { // need to add class
-      font-size: 24px;
+      cursor: pointer;
     }
   }
 
   .search-container {
     width: 100%;
     display: flex;
+
+    .search-bar input::placeholder {
+      color: #b0b0b0;
+      opacity: 1;
+    }
+
+    .search-bar input:-ms-input-placeholder {
+      color: #b0b0b0;
+    }
+
+    .search-bar input::-ms-input-placeholder {
+      color: #b0b0b0;
+    }
+
+    .search-bar input::placeholder-shown {
+      color: #b0b0b0;
+    }
+
 
     .search-bar {
       flex: 1;
@@ -90,7 +106,7 @@
 
     .table-row {
       @include transition(background-color);
-      
+
       &:hover {
         background-color: $hover-color;
         color: rgb(0, 0, 0);
@@ -191,6 +207,7 @@
   }
 
   @media (max-width: 576px) {
+
     .user-table,
     .header-cell,
     .editable-cell,

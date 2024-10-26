@@ -10,11 +10,14 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-user-table',
   standalone: true,
-  imports: [CommonModule, ScrollingModule, MatIconModule, FormsModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, ScrollingModule, 
+            MatIconModule, FormsModule, 
+            MatFormFieldModule, MatInputModule,
+            MatTooltipModule],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
 })
@@ -44,8 +47,10 @@ export class UserListComponent implements OnInit {
   }
 
   navigateToUserDetails(user: User) {
+    if (this.editListId !== user.id) {
       this.router.navigate(['/user', user.id]);
-  }
+    }
+    }  
 
   editUser(userId: string) {
     this.editListId = this.editListId === userId ? null : userId;
